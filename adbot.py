@@ -1,6 +1,7 @@
 from highrise import BaseBot, User, Position
 from highrise.__main__ import BotDefinition
 from asyncio import sleep, create_task, CancelledError
+from urllib.parse import urlparse, parse_qs
 import asyncio
 import os
 import json
@@ -86,6 +87,7 @@ class AdvancedBot(BaseBot):
             "!party": self.cmd_party,
             "!partys": self.cmd_partys,
             "!emotebot": self.cmd_emotebot,
+            "!emote": self.cmd_emote_link,
             "!loopchat": self.cmd_loopchat
         }
         self.emotes = {
@@ -1392,6 +1394,51 @@ class AdvancedBot(BaseBot):
             
            
 
+    async def cmd_emote_link(self, user: User, parts: list):
+        """
+        !emote <لینک> - اجرای هر دنسی مستقیماً از روی لینک high.rs، بدون نیاز به
+        اضافه کردن دستی آن دنس به لیست self.emotes.
+        مثال: !emote https://high.rs/item?id=emote-alice-shrink&type=emote
+        """
+        if len(parts) < 2:
+            await self.highrise.chat("⚠️ لطفاً لینک دنس را بعد از دستور وارد کنید.\nمثال: !emote https://high.rs/item?id=emote-xxx&type=emote")
+            return
+
+        link = parts[1].strip()
+        emote_id = None
+        try:
+            if link.startswith("http://") or link.startswith("https://"):
+                parsed = urlparse(link)
+                query = parse_qs(parsed.query)
+                emote_id = query.get("id", [None])[0]
+            elif link.startswith("id=") or "id=" in link:
+                # حالتی که فقط بخش id=... کپی شده باشد، بدون کل لینک
+                query = parse_qs(link)
+                emote_id = query.get("id", [None])[0]
+            else:
+                # حالتی که کاربر فقط خودِ آیدی دنس رو بدون لینک بفرسته
+                emote_id = link
+        except Exception as e:
+            logger.error(f"خطا در پارس لینک !emote از {user.username}: {e}")
+            emote_id = None
+
+        if not emote_id:
+            await self.highrise.chat("❌ لینک نامعتبر است! باید شامل id=... باشد.")
+            logger.info(f"لینک نامعتبر برای !emote توسط {user.username}: {link}")
+            return
+
+        # تست اجرای دنس قبل از قفل کردن روی حالت تکرار، تا اگه آیدی اشتباه بود سریع بهت خبر بده
+        try:
+            await self.highrise.send_emote(emote_id, user.id)
+        except Exception as e:
+            await self.highrise.chat(f"❌ اجرای دنس [{emote_id}] با خطا مواجه شد. احتمالاً آیدی دنس اشتباه است یا این آیتم دنس نیست.")
+            logger.error(f"خطا در اجرای !emote برای {emote_id} توسط {user.username}: {e}")
+            return
+
+        await self.start_dance(user, emote_id)
+        await self.highrise.chat(f"✅ دنس [{emote_id}] شروع و قفل شد! برای توقف بنویسید: stop")
+        logger.info(f"کاربر {user.username} دنس دلخواه {emote_id} را از طریق لینک اجرا کرد.")
+
     async def cmd_help(self, user: User, parts: list):
         help_text = (
             "دستورات ربات:\n"
@@ -1430,6 +1477,7 @@ class AdvancedBot(BaseBot):
             "!addadmin @username - افزودن ادمین (فقط Host)\n"
             "!removeadmin @username - حذف ادمین (فقط Host)\n"
             "!emotebot نام/شماره_دنس - تغییر دنس مداوم ربات (فقط ادمین)\n"
+            "!emote لینک_دنس - اجرای هر دنسی از روی لینک high.rs (بدون نیاز به اضافه شدن قبلی)\n"
             "!loopchat پیام - تنظیم پیام تکرارشونده/اسپم ربات (فقط ادمین)\n"
             "!listadd - نمایش لیست ادمین‌ها\n"
             "!freeze @username - فریز کردن کاربر\n"
@@ -2714,7 +2762,7 @@ async def main():
     
     logger.info("تلاش برای بارگذاری متغیرهای محیطی...")
     room_id = os.getenv("ROOM_ID", "68e771922d585712212e8070")
-    api_token = os.getenv("API_TOKEN", "9e7c0961d04f51d5c9261b216f4367cc6f8b063fab79ad190adb40020498757c")
+    api_token = os.getenv("API_TOKEN", "2655d9a3c633bf8365bb863c963927a18301474340cb5515736cc721d39e7150")
     
     if not room_id or not api_token:
         logger.error("ROOM_ID یا API_TOKEN تنظیم نشده‌اند.")
