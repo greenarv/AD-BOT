@@ -34,7 +34,7 @@ DEFAULT_CONFIG = {
         "dj": {"x": 9.5, "y": 10.75, "z": 10.5}
     },
     "language": "fa",
-    "welcome_message": "✨ 🌟 𝐖𝐞𝐥𝐜𝐨𝐦𝐞 {username} ❤️ 𝐆𝐥𝐚𝐝 𝐭𝐨 𝐡𝐚𝐯𝐞 𝐲𝐨𝐮 𝐡𝐞𝐫𝐞!\n🕺 𝐔𝐬𝐞 𝐍𝐮𝐦𝐛𝐞𝐫𝐬 (𝟏-𝟐𝟒𝟖) 𝐨𝐫 𝐄𝐦𝐨𝐭𝐞 𝐍𝐚𝐦𝐞𝐬 𝐭𝐨 𝐝𝐚𝐧𝐜𝐞!\n👑 𝐓𝐡𝐢𝐬 𝐛𝐨𝐭 𝐰𝐚𝐬 𝐜𝐫𝐞𝐚𝐭𝐞𝐝 & 𝐝𝐞𝐯𝐞𝐥𝐨𝐩𝐞𝐝 𝐛𝐲 @𝐚𝐝𝟎𝐫𝐢 😉\n📺 𝐒𝐮𝐛𝐬𝐜𝐫𝐢𝐛𝐞 𝐭𝐨 𝐨𝐮𝐫 𝐘𝐨𝐮𝐓𝐮𝐛𝐞: @𝐚𝐝𝐨𝐫𝐢_𝐡𝐢𝐭𝐨𝐭𝐬𝐨 🚀",
+    "welcome_message": "✨ 🌟 𝐖𝐞𝐥𝐜𝐨𝐦𝐞 {username} ❤️ 𝐆𝐥𝐚𝐝 𝐭𝐨 𝐡𝐚𝐯𝐞 𝐲𝐨𝐮 𝐡𝐞𝐫𝐞!\n🕺 𝐔𝐬𝐞 𝐍𝐮𝐦𝐛𝐞𝐫𝐬 (𝟏-𝟐𝟓𝟔) 𝐨𝐫 𝐄𝐦𝐨𝐭𝐞 𝐍𝐚𝐦𝐞𝐬 𝐭𝐨 𝐝𝐚𝐧𝐜𝐞!\n👑 𝐓𝐡𝐢𝐬 𝐛𝐨𝐭 𝐰𝐚𝐬 𝐜𝐫𝐞𝐚𝐭𝐞𝐝 & 𝐝𝐞𝐯𝐞𝐥𝐨𝐩𝐞𝐝 𝐛𝐲 @𝐚𝐝𝟎𝐫𝐢 😉\n📺 𝐒𝐮𝐛𝐬𝐜𝐫𝐢𝐛𝐞 𝐭𝐨 𝐨𝐮𝐫 𝐘𝐨𝐮𝐓𝐮𝐛𝐞: @𝐚𝐝𝐨𝐫𝐢_𝐡𝐢𝐭𝐨𝐭𝐬𝐨 🚀",
     "announcement_interval": 300,
     "announcement_message": "برای اجاره بات به آیدی @ad0ri پیام دهید!"
 }
@@ -341,6 +341,12 @@ class AdvancedBot(BaseBot):
             "248": "emote-knocking-screen",
             "249": "emote-alice-shrink",
             "250": "emote-threadexchange-star",
+            "251": "emote-inside-out",
+            "252": "emote-collab-photo-right",
+            "253": "emote-afk-idle",
+            "254": "emote-meditate-idle",
+            "255": "emote-sixseve-noimg",
+            "256": "emote-sixseven",
             "۱": "idle_zombie",
             "۲": "idle_layingdown2",
             "۳": "idle_layingdown",
@@ -591,6 +597,12 @@ class AdvancedBot(BaseBot):
             "۲۴۸": "emote-knocking-screen",
             "۲۴۹": "emote-alice-shrink",
             "۲۵۰": "emote-threadexchange-star",
+            "۲۵۱": "emote-inside-out",
+            "۲۵۲": "emote-collab-photo-right",
+            "۲۵۳": "emote-afk-idle",
+            "۲۵۴": "emote-meditate-idle",
+            "۲۵۵": "emote-sixseve-noimg",
+            "۲۵۶": "emote-sixseven",
             "zombie": "idle_zombie",
             "relaxed": "idle_layingdown2",
             "attentive": "idle_layingdown",
@@ -814,7 +826,12 @@ class AdvancedBot(BaseBot):
             "floss": "dance-floss",
             "rest": "sit-idle-cute",
             "aliceshrink": "emote-alice-shrink",
-            "threadexchangestar": "emote-threadexchange-star"
+            "threadexchangestar": "emote-threadexchange-star",
+            "insideout": "emote-inside-out",
+            "collabphoto": "emote-collab-photo-right",
+            "afk": "emote-afk-idle",
+            "meditate": "emote-meditate-idle",
+            "sixseven": "emote-sixseven"
         }
 
         self.emote_durations = {
@@ -1041,7 +1058,13 @@ class AdvancedBot(BaseBot):
             "dance-floss": 11.0,
             "emote-dead": 6.0,
             "emote-alice-shrink": 15.0,
-            "emote-threadexchange-star": 15.0
+            "emote-threadexchange-star": 15.0,
+            "emote-inside-out": 15.0,
+            "emote-collab-photo-right": 15.0,
+            "emote-afk-idle": 15.0,
+            "emote-meditate-idle": 15.0,
+            "emote-sixseve-noimg": 15.0,
+            "emote-sixseven": 15.0
         }
 
     def is_host(self, username: str) -> bool:
@@ -1328,7 +1351,7 @@ class AdvancedBot(BaseBot):
             "سلام عزیز! ❤️\n\n"
             "🤖 من یک ربات پیشرفته و فول امکانات برای مدیریت و ارتقای روم هستم!\n\n"
             "✨ **بخشی از قابلیت‌های خفن من:**\n"
-            "🔹 دارای ۲۴۸ دنس جذاب و فعال با تکرار همیشگی و بدون حتی ۱ ثانیه تاخیر! 💃\n"
+            "🔹 دارای ۲۵۶ دنس جذاب و فعال با تکرار همیشگی و بدون حتی ۱ ثانیه تاخیر! 💃\n"
             "🔹 سیستم خوش‌آمدگویی هوشمند و خودکار به محض ورود پلیرها 🚪\n"
             "🔹 قابلیت رقص همگانی و پارتی خودکار برای کل اعضای روم 🕺\n"
             "🔹 امنیت بالا و مدیریت کامل ادمین‌ها و دستورات اختصاصی 🛠️\n"
